@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  ords_openjdk8:
+    hostname: ords_openjdk8
+    container_name: ords_openjdk8
+    image: dennisxkimo/ords_openjdk8:latest
+    ports:
+      - 9292:9292
+    environment:
+      LANG: en_US.UTF-8
+      LC_CTYPE: en_US.UTF-8
+      TZ: Asia/Taipei
+      ORACLE_DB_SID: xe
+      ORACLE_DB_IP: 127.0.0.1
+    volumes:
+     - './params/ords_params.properties:/ords/params/ords_params.properties:z'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+    
+
