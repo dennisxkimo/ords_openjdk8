@@ -107,6 +107,6 @@ jdbc.InitialLimit 設定檔內無效
     Confirm password:<sys密碼>
 
 
-應該會刪除兩個DB USER
+應該會刪除兩個DB USER  
 ORDS_PUBLIC_USER  
 ORDS_METADATA  
