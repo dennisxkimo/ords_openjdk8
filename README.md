@@ -1,5 +1,12 @@
+
+建議Oracle 12c (12.2.0.1或更高版本)
+
+以下請改好真實Oracle DB訊息
+
 ### 1.請先改好目錄 params/ords_params.properties 正確設定  
->(Note: db.sid 通常不帶符號)  
+>  db.sid 通常不帶符號  
+>  user.public.password 是安裝時會建立的ORDS_PUBLIC_USER密碼  
+>  sys.password sys的密碼  
 
     db.hostname=127.0.0.1
     db.port=1521
@@ -31,7 +38,8 @@
     docker-compose stop
 
 ### 6.修改params/ords_params.properties  
->數值拿掉並註解(初始化已經寫入conf所以不需要這設定了)
+>數值拿掉並註解(初始化已經寫入conf所以不需要這設定了)  
+>為了安全請拿掉
 
     #sys.user=sys
     #sys.password=
@@ -42,7 +50,7 @@
     docker-compose start
 
 
-### 8.前往官網學習建置好的使用方式
+### 8.前往官網學習建置好的使用方式 Getting Started with Oracle REST Data Services  
 
     https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/21.4/index.html
 
@@ -51,16 +59,16 @@
 
 ### 關於"jdbc.InitialLimit in configuration |apex|pu| is using a value of 3"
 
-jdbc.MaxLimit 設定有效
+jdbc.MaxLimit 設定檔內有效
 但
-jdbc.InitialLimit 設定無效
+jdbc.InitialLimit 設定檔內無效
 暫時解法可以
 
 複製出來
 
     docker cp  ords_openjdk8:/ords/conf/ords/conf/apex_pu.xml ./
 
-修改追加一行 jdbc.InitialLimit 數值jdbc.MaxLimit的部分其實設定檔那裏一開始就決定好就好
+修改追加一行 jdbc.InitialLimit 數值而jdbc.MaxLimit的部分其實設定檔那裏一開始就決定好就好
 
     vi apex_pu.xml
     <entry key="jdbc.MaxLimit">100</entry>
@@ -76,3 +84,19 @@ jdbc.InitialLimit 設定無效
     docker-compose start
 
 該警告就不會出現了
+
+
+### 移除  
+>初始化的時候，ORDS會連進資料庫安裝環境建立DB USER跟物件，想要移除也是可以的。  
+>移除的時候要確認ORDS_PUBLIC_USER已經完全關閉離線
+
+    docker run  --rm -it  --name ords_inst \
+       -e ORACLE_DB_SID=xe \
+       -e ORACLE_DB_IP=127.0.0.1 \
+       -v "$(pwd)/params/ords_params.properties:/ords/params/ords_params.properties" \
+       dennisxkimo/ords_openjdk8:latest sh uninstall.sh
+
+
+應該會刪除兩個DB USER
+ORDS_PUBLIC_USER  
+ORDS_METADATA  
