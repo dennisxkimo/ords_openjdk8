@@ -88,13 +88,23 @@ jdbc.InitialLimit 設定檔內無效
 
 ### 移除  
 >初始化的時候，ORDS會連進資料庫安裝環境建立DB USER跟物件，想要移除也是可以的。  
->移除的時候要確認ORDS_PUBLIC_USER已經完全關閉離線
+>移除的時候要確認ORDS_PUBLIC_USER已經完全關閉離線。  
+>建議先改好目錄 params/ords_params.properties 正確設定，問句預設值會比較不需要設定。  
 
     docker run  --rm -it  --name ords_inst \
-       -e ORACLE_DB_SID=xe \
-       -e ORACLE_DB_IP=127.0.0.1 \
        -v "$(pwd)/params/ords_params.properties:/ords/params/ords_params.properties" \
        dennisxkimo/ords_openjdk8:latest sh uninstall.sh
+
+    Enter number for [1] Basic  [2] TNS  [3] Custom URL [1]:1
+    Enter the name of the database server [127.0.0.1]:127.0.0.1
+    Enter the database listen port [1521]:1521
+    Enter 1 to specify the database service name, or 2 to specify the database SID [1]:2
+    Enter the database SID [xe]:
+    Requires to login with administrator privileges to verify Oracle REST Data Services schema.
+
+    Enter the administrator username:sys
+    Enter the database password for SYS AS SYSDBA:<sys密碼>
+    Confirm password:<sys密碼>
 
 
 應該會刪除兩個DB USER
