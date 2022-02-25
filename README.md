@@ -40,3 +40,11 @@
 ### 7.啟動
 
     docker-compose start
+
+
+### 8.前往官網學習建置好的使用方式
+
+    https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/21.4/index.html
+
+
+本範例是啟動9292,docker-compose.yml 也是 9292:9292 如果外訪可以只改 <指定port>:9292
